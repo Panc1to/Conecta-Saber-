@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conecta Saber - Aprende a tu ritmo</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div id="app">
+        <!-- Header -->
+        <header class="header">
+            <div class="container">
+                <nav class="nav">
+                    <div class="logo">
+                        <h1><i class="fas fa-graduation-cap"></i> Conecta<span>Saber</span></h1>
+                    </div>
+                    <ul class="nav-menu" :class="{ active: menuActive }">
+                        <li><a href="#cursos" @click="closeMenu">Cursos</a></li>
+                        <li><a href="#sobre-nosotros" @click="closeMenu">Nosotros</a></li>
+                        <li><a href="#contacto" @click="closeMenu">Contacto</a></li>
+                        <li v-if="!isLoggedIn"><a href="#" class="btn-cta" @click.prevent="openLogin">Iniciar Sesión</a></li>
+                        <li v-if="isLoggedIn"><a href="#" class="btn-cta" @click.prevent="logout">Cerrar Sesión ({{ studentName }})</a></li>
+                    </ul>
+                    <button class="menu-toggle" @click="toggleMenu" aria-label="Toggle menu">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </button>
+                </nav>
+            </div>
+        </header>
+
+        <!-- Login Modal -->
+        <div class="modal-overlay" v-if="showLogin" @click="closeLogin">
+            <div class="modal-content" @click.stop>
+                <button class="modal-close" @click="closeLogin">
+                    <i class="fas fa-times"></i>
+                </button>
+                <div class="modal-header">
+                    <i class="fas fa-graduation-cap modal-icon"></i>
+                    <h2>Bienvenido a Conecta Saber</h2>
+                    <p>Inicia sesión para acceder a tus cursos</p>
+                </div>
+                <form @submit.prevent="login" class="login-form">
+                    <div class="form-group">
+                        <label for="email">
+                            <i class="fas fa-envelope"></i> Correo Electrónico
+                        </label>
+                        <input 
+                            type="email" 
+                            id="email" 
+                            v-model="loginForm.email" 
+                            placeholder="tucorreo@ejemplo.com"
+                            required
+                        >
+                    </div>
+                    <div class="form-group">
+                        <label for="password">
+                            <i class="fas fa-lock"></i> Contraseña
+                        </label>
+                        <input 
+                            type="password" 
+                            id="password" 
+                            v-model="loginForm.password" 
+                            placeholder="••••••••"
+                            required
+                        >
+                    </div>
+                    <div class="form-options">
+                        <label class="checkbox-label">
+                            <input type="checkbox" v-model="loginForm.remember">
+                            <span>Recordarme</span>
+                        </label>
+                        <a href="#" class="forgot-password">¿Olvidaste tu contraseña?</a>
+                    </div>
+                    <button type="submit" class="btn-login">
+                        <i class="fas fa-sign-in-alt"></i> Iniciar Sesión
+                    </button>
+                    <div class="login-footer">
+                        <p>¿No tienes cuenta? <a href="#" @click.prevent="showRegisterMessage">Regístrate aquí</a></p>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Payment Modal -->
+        <div class="modal-overlay" v-if="showPayment" @click="closePayment">
+            <div class="modal-content payment-modal" @click.stop>
+                <button class="modal-close" @click="closePayment">
+                    <i class="fas fa-times"></i>
+                </button>
+                <div class="modal-header">
+                    <i class="fas fa-shopping-cart modal-icon"></i>
+                    <h2>Completar Inscripción</h2>
+                    <p v-if="selectedCourse">{{ selectedCourse.title }}</p>
+                </div>
+
+                <!-- Resumen del curso -->
+                <div class="payment-summary" v-if="selectedCourse">
+                    <div class="summary-row">
+                        <span>Curso:</span>
+                        <strong>{{ selectedCourse.title }}</strong>
+                    </div>
+                    <div class="summary-row">
+                        <span>Nivel:</span>
+                        <span>{{ selectedCourse.level }}</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Duración:</span>
+                        <span>{{ selectedCourse.duration }}</span>
+                    </div>
+                    <div class="summary-row total">
+                        <span>Total:</span>
+                        <strong class="price-total">{{ selectedCourse.price }}</strong>
+                    </div>
+                </div>
+
+                <!-- Selección de método de pago -->
+                <div class="payment-methods">
+                    <h3>Método de Pago</h3>
+                    <div class="payment-options">
+                        <div 
+                            class="payment-option" 
+                            :class="{ active: paymentMethod === 'tarjeta' }"
+                            @click="selectPaymentMethod('tarjeta')"
+                        >
+                            <i class="fas fa-credit-card"></i>
+                            <div class="option-content">
+                                <strong>Tarjeta de Crédito/Débito</strong>
+                                <span>Visa, Mastercard, American Express</span>
+                            </div>
+                            <i class="fas fa-check-circle check-icon"></i>
+                        </div>
+                        <div 
+                            class="payment-option" 
+                            :class="{ active: paymentMethod === 'paypal' }"
+                            @click="selectPaymentMethod('paypal')"
+                        >
+                            <i class="fab fa-paypal"></i>
+                            <div class="option-content">
+                                <strong>PayPal</strong>
+                                <span>Pago rápido y seguro con PayPal</span>
+                            </div>
+                            <i class="fas fa-check-circle check-icon"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Formulario de tarjeta -->
+                <form v-if="paymentMethod === 'tarjeta'" @submit.prevent="processPayment" class="payment-form">
+                    <div class="form-group">
+                        <label for="cardNumber">
+                            <i class="fas fa-credit-card"></i> Número de Tarjeta
+                        </label>
+                        <input 
+                            type="text" 
+                            id="cardNumber" 
+                            v-model="cardForm.number" 
+                            placeholder="1234 5678 9012 3456"
+                            maxlength="19"
+                            required
+                        >
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="cardExpiry">
+                                <i class="far fa-calendar"></i> Fecha de Expiración
+                            </label>
+                            <input 
+                                type="text" 
+                                id="cardExpiry" 
+                                v-model="cardForm.expiry" 
+                                placeholder="MM/AA"
+                                maxlength="5"
+                                required
+                            >
+                        </div>
+                        <div class="form-group">
+                            <label for="cardCvv">
+                                <i class="fas fa-lock"></i> CVV
+                            </label>
+                            <input 
+                                type="text" 
+                                id="cardCvv" 
+                                v-model="cardForm.cvv" 
+                                placeholder="123"
+                                maxlength="3"
+                                required
+                            >
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="cardName">
+                            <i class="fas fa-user"></i> Nombre en la Tarjeta
+                        </label>
+                        <input 
+                            type="text" 
+                            id="cardName" 
+                            v-model="cardForm.name" 
+                            placeholder="NOMBRE APELLIDO"
+                            required
+                        >
+                    </div>
+                    <button type="submit" class="btn-payment">
+                        <i class="fas fa-lock"></i> Pagar {{ selectedCourse ? selectedCourse.price : '' }}
+                    </button>
+                </form>
+
+                <!-- Botón PayPal -->
+                <div v-if="paymentMethod === 'paypal'" class="paypal-container">
+                    <button @click="processPayment" class="btn-paypal">
+                        <i class="fab fa-paypal"></i> Pagar con PayPal
+                    </button>
+                    <p class="payment-note">Serás redirigido a PayPal para completar tu pago de forma segura</p>
+                </div>
+
+                <div class="payment-security">
+                    <i class="fas fa-shield-alt"></i>
+                    <span>Pago 100% seguro y encriptado</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="container">
+                <div class="hero-content">
+                    <h2 class="hero-title">Aprende Nuevas Habilidades</h2>
+                    <p class="hero-subtitle">Descubre cursos de alta calidad diseñados para impulsar tu carrera profesional</p>
+                    <a href="#cursos" class="btn-primary"><i class="fas fa-rocket"></i> Explorar Cursos</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Courses Section -->
+        <section id="cursos" class="courses">
+            <div class="container">
+                <h2 class="section-title">Nuestros Cursos</h2>
+                <div class="filter-tabs">
+                    <button 
+                        v-for="category in categories" 
+                        :key="category"
+                        @click="filterCourses(category)"
+                        :class="['filter-btn', { active: selectedCategory === category }]"
+                    >
+                        {{ category }}
+                    </button>
+                </div>
+                <div class="courses-grid">
+                    <div 
+                        v-for="course in filteredCourses" 
+                        :key="course.id" 
+                        class="course-card"
+                    >
+                        <div class="course-image">
+                            <img :src="course.image" :alt="course.title">
+                            <span class="course-badge">{{ course.level }}</span>
+                        </div>
+                        <div class="course-content">
+                            <h3 class="course-title">{{ course.title }}</h3>
+                            <p class="course-description">{{ course.description }}</p>
+                            <div class="course-meta">
+                                <span class="course-duration"><i class="far fa-clock"></i> {{ course.duration }}</span>
+                                <span class="course-students"><i class="fas fa-users"></i> {{ course.students }}</span>
+                            </div>
+                            <div class="course-footer">
+                                <span class="course-price">{{ course.price }}</span>
+                                <button class="btn-enroll" @click="enrollCourse(course)">Inscribirse</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="sobre-nosotros" class="about">
+            <div class="container">
+                <h2 class="section-title">¿Por qué elegirnos?</h2>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="fas fa-bullseye"></i></div>
+                        <h3>Contenido de Calidad</h3>
+                        <p>Cursos actualizados y creados por expertos en la industria</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="fas fa-bolt"></i></div>
+                        <h3>Aprende a tu Ritmo</h3>
+                        <p>Acceso ilimitado 24/7 desde cualquier dispositivo</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="fas fa-trophy"></i></div>
+                        <h3>Certificación</h3>
+                        <p>Obtén certificados reconocidos al completar tus cursos</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer id="contacto" class="footer">
+            <div class="container">
+                <div class="footer-content">
+                    <div class="footer-section">
+                        <h3>Conecta<span>Saber</span></h3>
+                        <p>Transformando vidas a través de la educación</p>
+                    </div>
+                    <div class="footer-section">
+                        <h4>Enlaces</h4>
+                        <ul>
+                            <li><a href="#cursos">Cursos</a></li>
+                            <li><a href="#sobre-nosotros">Nosotros</a></li>
+                            <li><a href="#">Blog</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-section">
+                        <h4>Contacto</h4>
+                        <ul>
+                            <li><i class="fas fa-envelope"></i> info@conectasaber.com</li>
+                            <li><i class="fas fa-phone"></i> +56 9 1234 5678</li>
+                            <li><i class="fas fa-map-marker-alt"></i> Temuco, Chile</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="footer-bottom">
+                    <p>&copy; 2025 Conecta Saber. Todos los derechos reservados.</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Vue 3 CDN -->
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
