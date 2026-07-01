@@ -17,7 +17,7 @@ Características
 - **Font Awesome**: Iconos profesionales
 - **LocalStorage**: Sesiones persistentes
 
-## 🚀 Demo en Vivo
+Demo en Vivo
 
 [Ver Demo](#) _(Agrega aquí el link cuando lo despliegues)_
 
@@ -171,12 +171,3 @@ Autor
 
 **Tu Nombre**
 - GitHub: [@Panc1to](https://github.com/tu-usuario)
-
-
-
-
----
-
-⭐ Si te gusta este proyecto, dale una estrella en GitHub!
-
-**Hecho con ❤️ y Vue.js**
