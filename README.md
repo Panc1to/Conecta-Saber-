@@ -1,4 +1,4 @@
-# 🎓 Conecta Saber - Plataforma de Cursos Online
+Conecta Saber - Plataforma de Cursos Online
 
 Plataforma web minimalista y responsive para la venta de cursos online, desarrollada con Vue.js 3.
 
@@ -6,29 +6,29 @@ Plataforma web minimalista y responsive para la venta de cursos online, desarrol
 ![Font Awesome](https://img.shields.io/badge/Font%20Awesome-6.4.0-339AF0?logo=font-awesome&logoColor=white)
 ![License](https://img.shields.io/badge/license-MIT-blue.svg)
 
-## ✨ Características
+Características
 
-- 🎨 **Diseño Minimalista**: Interfaz limpia y moderna
-- 📱 **Totalmente Responsive**: Adaptado para móvil, tablet y desktop
-- 🔐 **Sistema de Login**: Autenticación de usuarios con persistencia
-- 💳 **Métodos de Pago**: Integración con tarjetas y PayPal
-- 🎯 **Filtrado de Cursos**: Sistema de categorías dinámico
-- ⚡ **Vue.js 3**: Framework reactivo y moderno
-- 🎭 **Font Awesome**: Iconos profesionales
-- 💾 **LocalStorage**: Sesiones persistentes
+- **Diseño Minimalista**: Interfaz limpia y moderna
+- **Totalmente Responsive**: Adaptado para móvil, tablet y desktop
+- **Sistema de Login**: Autenticación de usuarios con persistencia
+- **Métodos de Pago**: Integración con tarjetas y PayPal
+- **Filtrado de Cursos**: Sistema de categorías dinámico
+- **Vue.js 3**: Framework reactivo y moderno
+- **Font Awesome**: Iconos profesionales
+- **LocalStorage**: Sesiones persistentes
 
 ## 🚀 Demo en Vivo
 
 [Ver Demo](#) _(Agrega aquí el link cuando lo despliegues)_
 
-## 📋 Requisitos Previos
+Requisitos Previos
 
 No se requiere instalación de dependencias. El proyecto usa CDN para todas las librerías:
 - Vue.js 3
 - Font Awesome 6.4.0
 - Google Fonts (Inter)
 
-## 🛠️ Instalación
+Instalación
 
 1. **Clonar el repositorio**
 ```bash
@@ -40,7 +40,7 @@ cd conecta-saber
    - Simplemente abre `index.html` en tu navegador
    - O usa un servidor local como Live Server
 
-## 📁 Estructura del Proyecto
+Estructura del Proyecto
 
 ```
 conecta-saber/
@@ -53,27 +53,27 @@ conecta-saber/
 └── .gitignore          # Archivos ignorados por Git
 ```
 
-## 🎯 Funcionalidades
+Funcionalidades
 
-### Sistema de Autenticación
+Sistema de Autenticación
 - Login con email y contraseña
 - Opción "Recordarme" con localStorage
 - Validación de sesión
 - Cierre de sesión
 
-### Catálogo de Cursos
+Catálogo de Cursos
 - 6 cursos en diferentes categorías
 - Filtrado por categoría (Todos, Programación, Diseño, Negocios, Marketing)
 - Tarjetas con información detallada
 - Imágenes de alta calidad
 
-### Sistema de Pago
+Sistema de Pago
 - Selección de método de pago (Tarjeta/PayPal)
 - Formulario de tarjeta de crédito/débito
 - Resumen del curso antes del pago
 - Validación de campos
 
-## 🎨 Paleta de Colores
+Paleta de Colores
 
 ```css
 --primary-color: #2563eb    /* Azul principal */
@@ -84,7 +84,7 @@ conecta-saber/
 --bg-light: #f9fafb         /* Fondo claro */
 ```
 
-## 💻 Tecnologías Utilizadas
+Tecnologías Utilizadas
 
 - **HTML5**: Estructura semántica
 - **CSS3**: Flexbox, Grid, Variables CSS, Animaciones
@@ -93,7 +93,7 @@ conecta-saber/
 - **Font Awesome**: Biblioteca de iconos
 - **Google Fonts**: Tipografía Inter
 
-## 📱 Responsive Design
+Responsive Design
 
 El sitio está optimizado para diferentes tamaños de pantalla:
 - **Mobile**: < 480px
@@ -101,9 +101,9 @@ El sitio está optimizado para diferentes tamaños de pantalla:
 - **Desktop**: > 769px
 - **Large Desktop**: > 1400px
 
-## 🔧 Personalización
+Personalización
 
-### Agregar un Nuevo Curso
+Agregar un Nuevo Curso
 
 Edita el array `courses` en `app.js`:
 
@@ -121,7 +121,7 @@ Edita el array `courses` en `app.js`:
 }
 ```
 
-### Cambiar Colores
+Cambiar Colores
 
 Modifica las variables CSS en `styles.css`:
 
@@ -132,28 +132,28 @@ Modifica las variables CSS en `styles.css`:
 }
 ```
 
-## 🌐 Despliegue
+Despliegue
 
-### GitHub Pages
+GitHub Pages
 
 1. Ve a Settings > Pages en tu repositorio
 2. Selecciona la rama `main` y carpeta `root`
 3. Guarda y espera unos minutos
 4. Tu sitio estará en `https://tu-usuario.github.io/conecta-saber`
 
-### Netlify
+Netlify
 
 1. Arrastra la carpeta del proyecto a [Netlify Drop](https://app.netlify.com/drop)
 2. Tu sitio estará desplegado instantáneamente
 
-### Vercel
+Vercel
 
 ```bash
 npm i -g vercel
 vercel
 ```
 
-## 🤝 Contribuir
+Contribuir
 
 Las contribuciones son bienvenidas. Por favor:
 
@@ -163,33 +163,17 @@ Las contribuciones son bienvenidas. Por favor:
 4. Push a la rama (`git push origin feature/AmazingFeature`)
 5. Abre un Pull Request
 
-## 📝 Licencia
+Licencia
 
 Este proyecto está bajo la Licencia MIT. Ver el archivo `LICENSE` para más detalles.
 
-## 👤 Autor
+Autor
 
 **Tu Nombre**
-- GitHub: [@tu-usuario](https://github.com/tu-usuario)
-- Email: tu-email@ejemplo.com
+- GitHub: [@Panc1to](https://github.com/tu-usuario)
 
-## 🙏 Agradecimientos
 
-- [Vue.js](https://vuejs.org/) - Framework JavaScript
-- [Font Awesome](https://fontawesome.com/) - Iconos
-- [Unsplash](https://unsplash.com/) - Imágenes de cursos
-- [Google Fonts](https://fonts.google.com/) - Tipografía Inter
 
-## 📸 Capturas de Pantalla
-
-### Página Principal
-![Home](screenshots/home.png)
-
-### Sistema de Login
-![Login](screenshots/login.png)
-
-### Proceso de Pago
-![Payment](screenshots/payment.png)
 
 ---
 
