@@ -17,10 +17,6 @@ Características
 - **Font Awesome**: Iconos profesionales
 - **LocalStorage**: Sesiones persistentes
 
-Demo en Vivo
-
-[Ver Demo](#) _(Agrega aquí el link cuando lo despliegues)_
-
 Requisitos Previos
 
 No se requiere instalación de dependencias. El proyecto usa CDN para todas las librerías:
